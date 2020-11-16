@@ -1,6 +1,8 @@
 use ansi_term::Colour;
 use git2::{StatusOptions,Repository,Reference,Oid};
 use std::env;
+use hostname;
+use users;
 
 fn get_prompt_pwd(path: &str) -> String {
     let home = env::var("HOME").unwrap();
@@ -87,6 +89,25 @@ fn get_ahead_behind(repo: &Repository) -> Option<String> {
     return None;
 }
 
+fn get_ssh_hostname() -> Option<String> {
+    if let Ok(_ssh_tty) = env::var("SSH_TTY") {
+        if let Ok(host) = hostname::get() {
+            let host_str = host.into_string().unwrap();
+            return Some(Colour::Fixed(8).paint(host_str).to_string());
+        }
+    }
+    return None;
+}
+
+fn get_username() -> Option<String> {
+    if let Some(username) = users::get_current_username() {
+        if let Ok(username_str) = username.into_string() {
+            return Some(Colour::Fixed(8).paint(username_str).to_string());
+        }
+    }
+    return None;
+}
+
 fn main() {
     let cwd = env::var("PWD").unwrap();
     print!("\n{}", get_prompt_pwd(&cwd));
@@ -100,6 +121,10 @@ fn main() {
             print!(" {}", ahead_behind);
         }
     }
-
+    if let Some(hostname) = get_ssh_hostname() {
+        if let Some(username) = get_username() {
+            print!(" {}{}{}", username, Colour::Fixed(8).paint("@"), hostname);
+        }
+    }
     print!("\n{}", Colour::Fixed(8).paint("❯ "));
 }
