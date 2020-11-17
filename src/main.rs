@@ -1,5 +1,5 @@
 use ansi_term::Colour;
-use git2::{StatusOptions,Repository,Reference,Oid};
+use git2::{Repository,Reference,Oid, DiffOptions};
 use std::env;
 use hostname;
 use users;
@@ -11,9 +11,9 @@ fn get_prompt_pwd(path: &str) -> String {
     let len = dirs.len();
     let max_dirs = 4;
     if len <= max_dirs {
-        return Colour::Fixed(4).paint(dirs.join(&"/")).to_string();
+        return Colour::Fixed(8).paint(dirs.join(&"/")).to_string();
     }
-    return Colour::Fixed(4).paint(
+    return Colour::Fixed(8).paint(
         [".../", &dirs[(len-max_dirs)..len].join(&"/")].concat()
         ).to_string();
 }
@@ -24,36 +24,33 @@ fn get_branch(repo: &Repository) -> String {
         Err(_e) => None,
     };
     let head = head.as_ref().and_then(|h| h.shorthand());
-    return Colour::Fixed(8).paint(head.unwrap_or("HEAD")).to_string();
+    return Colour::Fixed(4).paint(head.unwrap_or("HEAD")).to_string();
 }
 
 fn get_status(repo: &Repository) -> Option<String> {
-    let index_statuses = [
-        git2::Status::INDEX_NEW,
-        git2::Status::INDEX_MODIFIED,
-        git2::Status::INDEX_DELETED,
-        git2::Status::INDEX_RENAMED,
-        git2::Status::INDEX_TYPECHANGE,
-    ];
-    let working_directory_statuses = [
-        git2::Status::WT_MODIFIED,
-        git2::Status::WT_DELETED,
-        git2::Status::WT_RENAMED,
-        git2::Status::WT_TYPECHANGE,
-    ];
-    if let Ok(statuses) = repo.statuses(Some(&mut StatusOptions::new())) {
-        match statuses.iter().find(|entry| working_directory_statuses.contains(&entry.status())) {
-            Some(_status) => {
-                return Some(Colour::Fixed(9).paint("*").to_string());
-            },
-            None => {
-                if let Some(_status) = statuses.iter().find(|entry| index_statuses.contains(&entry.status())) {
-                    return Some(Colour::Fixed(10).paint("*").to_string());
-                }
-            }
-        };
+    let mut diff_opts = DiffOptions::new();
+    diff_opts.ignore_submodules(true);
+    diff_opts.skip_binary_check(true);
+
+    let index = match repo.index() {
+        Ok(index) => index,
+        Err(_e) => return None,
+    };
+    let diff_w = repo.diff_index_to_workdir(Some(&index), Some(&mut diff_opts)).unwrap();
+    let (size_w, _opt) = diff_w.deltas().size_hint();
+    if size_w > 0 {
+        return Some(Colour::Fixed(9).paint("*").to_string());
     }
 
+    let head = match repo.head() {
+        Ok(head) => head.peel_to_tree().unwrap(),
+        Err(_e) => return None,
+    };
+    let diff_i = repo.diff_tree_to_index(Some(&head), Some(&index), Some(&mut diff_opts)).unwrap();
+    let (size_i, _opt) = diff_i.deltas().size_hint();
+    if size_i > 0 {
+        return Some(Colour::Fixed(10).paint("*").to_string());
+    }
     return None;
 }
 
@@ -114,9 +111,11 @@ fn main() {
 
     if let Ok(repo) = Repository::open(&cwd) {
         print!(" {}", get_branch(&repo));
+
         if let Some(status) = get_status(&repo) {
             print!("{}", status);
         }
+
         if let Some(ahead_behind) = get_ahead_behind(&repo) {
             print!(" {}", ahead_behind);
         }
