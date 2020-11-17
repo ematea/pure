@@ -105,11 +105,25 @@ fn get_username() -> Option<String> {
     return None;
 }
 
+fn find_repository(path: &str) -> Option<Repository> {
+    let mut dirs: Vec<&str> = path.split('/').collect();
+
+    while dirs.len() > 0 {
+        let path = dirs.join(&"/");
+        if let Ok(repo) = Repository::open(&path) {
+            return Some(repo);
+        }
+        dirs.pop();
+    }
+
+    return None;
+}
+
 fn main() {
     let cwd = env::var("PWD").unwrap();
     print!("\n{}", get_prompt_pwd(&cwd));
 
-    if let Ok(repo) = Repository::open(&cwd) {
+    if let Some(repo) = find_repository(&cwd) {
         print!(" {}", get_branch(&repo));
 
         if let Some(status) = get_status(&repo) {
