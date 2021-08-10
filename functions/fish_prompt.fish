@@ -1,5 +1,5 @@
 function fish_prompt
-  printf "\n"
+  printf "\n\033[2K"
 
   if test ! -z "$SSH_TTY"
     set_color brblack
@@ -8,7 +8,7 @@ function fish_prompt
 
   set --local _pure_git_prompt (eval 'echo $_pure_git_prompt_'$fish_pid)
   set_color cyan
-  printf "\033[2K%s$_pure_git_prompt " (prompt_pwd)
+  printf "%s$_pure_git_prompt " (prompt_pwd)
 
   set_color yellow
   printf "$_pure_cmd_duration"
