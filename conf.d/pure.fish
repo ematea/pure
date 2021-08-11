@@ -27,3 +27,11 @@ end
 function _pure_fish_exit --on-event fish_exit
   set -e _pure_git_prompt_$fish_pid
 end
+
+set --query pure_color_ssh || set --global pure_color_ssh normal
+set --query pure_color_pwd || set --global pure_color_pwd normal
+set --query pure_color_duration || set --global pure_color_duration normal
+set --query pure_symbol_prompt || set --global pure_symbol_prompt ❯
+set --query pure_color_prompt || set --global pure_color_prompt normal
+set --query pure_color_prompt_failed || set --global pure_color_prompt_failed red
+set --query pure_remove_git_information_parenthesis || set --global pure_remove_git_information_parenthesis no
