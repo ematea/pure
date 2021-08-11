@@ -18,7 +18,7 @@ fisher install ematea/pure
 
 ## Configuration
 
-- As mentioned above, the `pwd` information is displayed using [prompt_pwd](https://fishshell.com/docs/current/cmds/prompt_pwd.html) and the `git` information using [fish_git_prompt](https://fishshell.com/docs/current/cmds/fish_git_prompt.html), so you can customize the colors and symbols of them according to the official documentation.
+- As mentioned above, the `pwd` information is displayed using [prompt_pwd](https://fishshell.com/docs/current/cmds/prompt_pwd.html) and the `git` information using [fish_git_prompt](https://fishshell.com/docs/current/cmds/fish_git_prompt.html), so you can customize the colors, symbols, or format of them according to the official documentation.
 - Modify following variables to customize other symbols and colors in your `config.fish` file.
 
 ### Symbols
@@ -39,7 +39,7 @@ fisher install ematea/pure
 
 ### Flags
 
-| Variable                      | Type                   | Description                           | Default |
-|-------------------------------|------------------------|---------------------------------------|---------|
-| `pure_remove_git_parenthesis` | string (true or false) | remove `()` of git information or not | false   |
+| Variable                      | Type                   | Description                             | Default |
+|-------------------------------|------------------------|-----------------------------------------|---------|
+| `pure_remove_git_parenthesis` | string (true or false) | remove `()` from git information or not | false   |
 
