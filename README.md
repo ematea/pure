@@ -1,6 +1,6 @@
 # Pure
 
-> A [fish](https://fishshell.com/) prompt plugin that allows you to customize pwd and git information as usual, with asynchronous rendering of git information.
+> A [fish](https://fishshell.com/) prompt plugin, allows you to customize `pwd` and `git` information as usual, with asynchronous rendering of git information.
 
 ## Installation
 
