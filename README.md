@@ -29,13 +29,13 @@ fisher install ematea/pure
 
 ### Colors
 
-| Variable                   | Type  | Description                                                  | Default |
-|----------------------------|-------|--------------------------------------------------------------|---------|
-| `pure_color_ssh`           | color | Color of ssh information section.                            | normal  |
-| `pure_color_pwd`           | color | Color of the pwd section.                                    | normal  |
-| `pure_color_duration`      | color | Color of the duration section.                               | normal  |
-| `pure_color_prompt`        | color | Color of prompt symbol.                                      | normal  |
-| `pure_color_prompt_failed` | color | Color of prompt symbol when command exit status was not `0`. | red     |
+| Variable                   | Type  | Description                                                       | Default |
+|----------------------------|-------|-------------------------------------------------------------------|---------|
+| `pure_color_ssh`           | color | Color of ssh information section.                                 | normal  |
+| `pure_color_pwd`           | color | Color of the pwd section.                                         | normal  |
+| `pure_color_duration`      | color | Color of the duration section.                                    | normal  |
+| `pure_color_prompt`        | color | Color of prompt symbol.                                           | normal  |
+| `pure_color_prompt_failed` | color | Color of prompt symbol when command exit status code was not `0`. | red     |
 
 ### Flags
 
