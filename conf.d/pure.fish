@@ -15,7 +15,7 @@ end
 
 function _pure_prompt --on-event fish_prompt
   fish --private --command "
-    if test \"\$pure_remove_git_information_parenthesis\" = \"true\"
+    if test \"\$pure_remove_git_parenthesis\" = \"true\"
       set --universal _pure_git_prompt_$fish_pid (fish_git_prompt | sed -e 's/(//' | rev | sed -e 's/)//' | rev)
     else
       set --universal _pure_git_prompt_$fish_pid (fish_git_prompt)
@@ -34,4 +34,4 @@ set --query pure_color_duration || set --global pure_color_duration normal
 set --query pure_symbol_prompt || set --global pure_symbol_prompt ❯
 set --query pure_color_prompt || set --global pure_color_prompt normal
 set --query pure_color_prompt_failed || set --global pure_color_prompt_failed red
-set --query pure_remove_git_information_parenthesis || set --global pure_remove_git_information_parenthesis no
+set --query pure_remove_git_parenthesis || set --global pure_remove_git_parenthesis no

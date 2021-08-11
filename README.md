@@ -39,7 +39,7 @@ fisher install ematea/pure
 
 ### Flags
 
-| Variable                                  | Type                   | Description                           | Default |
-|-------------------------------------------|------------------------|---------------------------------------|---------|
-| `pure_remove_git_information_parenthesis` | string (true or false) | remove `()` of git information or not | false   |
+| Variable                      | Type                   | Description                           | Default |
+|-------------------------------|------------------------|---------------------------------------|---------|
+| `pure_remove_git_parenthesis` | string (true or false) | remove `()` of git information or not | false   |
 
