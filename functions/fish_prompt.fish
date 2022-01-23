@@ -14,7 +14,7 @@ function fish_prompt
   printf "$_pure_git_prompt"
 
   set_color $pure_color_duration
-  printf "$_pure_duration"
+  printf " $_pure_duration"
 
   if test -z "$_pure_exit_code" -o "$_pure_exit_code" = "0"
     set_color $pure_color_prompt
