@@ -11,7 +11,7 @@ function fish_prompt
   printf "%s" (prompt_pwd)
 
   set_color normal
-  printf "$_pure_git_prompt "
+  printf "$_pure_git_prompt"
 
   set_color $pure_color_duration
   printf "$_pure_duration"

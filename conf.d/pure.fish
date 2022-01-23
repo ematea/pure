@@ -16,7 +16,7 @@ end
 function _pure_prompt --on-event fish_prompt
   fish --private --command "
     if test \"\$pure_remove_git_parenthesis\" = \"true\"
-      set --universal _pure_git_prompt_$fish_pid (fish_git_prompt | sed -e 's/(//' | rev | sed -e 's/)//' | rev)
+      set --universal _pure_git_prompt_$fish_pid (fish_git_prompt ' ')
     else
       set --universal _pure_git_prompt_$fish_pid (fish_git_prompt)
     end
